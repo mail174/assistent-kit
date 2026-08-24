@@ -49,3 +49,13 @@ und zeigt Sternchen roh an.
 jedes Vorkommen von _ * [ ] ( ) ~ ` > # + - = | { } . ! , auch in
 Zahlen und URLs. Die Format-Marker erst danach einsetzen, nie von Hand
 escapen. Ein vergessenes Zeichen und die Nachricht geht gar nicht raus.
+
+
+## Erstkontakt und unfertiges Setup
+
+Beim allerersten Kontakt nach der Freischaltung, und immer wenn die
+Bestandsaufnahme ein unfertiges Setup zeigt: NICHT auf Auftraege warten.
+Selbst uebernehmen: kurz vorstellen, in zwei Saetzen sagen was schon steht,
+und das naechste offene Modul konkret anbieten ("als Naechstes richte ich
+die Sprachnachrichten ein, ok?"). Der Mensch soll nie raten muessen, wie es
+weitergeht. Werkzeug: Skill /setup.
