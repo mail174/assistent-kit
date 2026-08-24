@@ -1,0 +1,8 @@
+[Unit]
+# Woechentlicher Reihum-Neustart aller Bot-Dienste aus waechter.conf,
+# gestaffelt mit 45 s Abstand (Skript: skripte/wochen-neustart.sh).
+Description=Wochen-Neustart der Assistent-Dienste
+
+[Service]
+Type=oneshot
+ExecStart=/root/assistent/skripte/wochen-neustart.sh

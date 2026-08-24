@@ -15,3 +15,7 @@ GEMINI_API_KEY=
 # an dem ein Dienst ohne Tastatur ewig haengt (Details: wissen/selbstheilung.md).
 CLAUDE_CODE_RESUME_TOKEN_THRESHOLD=1000000000
 CLAUDE_CODE_RESUME_THRESHOLD_MINUTES=1000000000
+
+# Update-Dialoge sind Headless-Haenger: der Auto-Updater fragt interaktiv
+# nach und niemand drueckt Enter. Deshalb aus.
+DISABLE_AUTOUPDATER=1

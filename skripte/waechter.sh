@@ -283,7 +283,10 @@ for svc in "${SVC_LIST[@]}"; do
     continue
   fi
 
-  # Lebt, angemeldet, und antwortet trotzdem nicht? Neustart resumt die Session.
+  # Lebt, angemeldet, und antwortet trotzdem nicht? Neustart. Der Chat-Kontext
+  # ueberlebt das nur, wenn session-track-Hook und Resume-Zweig im Startskript
+  # eingerichtet sind (wissen/selbstheilung.md, "Neustart darf den Chat-Kontext
+  # nicht kosten"); ohne die beiden startet der Bot frisch und ohne Gedaechtnis.
   if [ "$LOGGED_OUT" = "0" ] && [ "$up" -gt 300 ]; then
     if grund=$(is_stuck "$svc"); then
       restart_service "$svc" "antwortete nicht mehr ($grund)"
@@ -304,7 +307,32 @@ for svc in "${SVC_LIST[@]}"; do
   fi
 done
 
-# --- 3. Globale RAM-Not ---
+# --- 3. Amok-Suchprozesse: Suchkinder der Bot-Dienste, die den RAM fressen ---
+# Eine ausser Kontrolle geratene Suche (rg/ugrep/grep ueber einen Riesen-Baum)
+# frisst Gigabytes, bis der OOM-Killer wahllos zuschlaegt. Hier stirbt nur das
+# Suchkind, nie der Dienst (dazu passt OOMPolicy=continue in der Unit-Vorlage).
+# Die Zeichenklassen im Muster (r[g] statt rg) verhindern den Selbsttreffer,
+# siehe "pkill trifft sich selbst" in wissen/selbstheilung.md.
+AMOK_MIN_AGE=300                                   # juengere Suchen in Ruhe lassen
+MEM_TOTAL_KB=$(awk '/MemTotal/{print $2}' /proc/meminfo)
+AMOK_RSS_KB=$(( MEM_TOTAL_KB / 5 ))                # ~20 % des Gesamt-RAM
+svc_pids=$(for svc in "${SVC_LIST[@]}"; do cgroup_pids "$svc"; done)
+# shellcheck disable=SC2009  # pgrep liefert weder etimes noch rss, deshalb ps+grep
+while read -r pid etimes rss args; do
+  [ -n "${pid:-}" ] || continue
+  echo "$svc_pids" | grep -qx "$pid" || continue   # nur Kinder der Bot-Dienste
+  [ "$etimes" -gt "$AMOK_MIN_AGE" ] || continue
+  [ "$rss" -gt "$AMOK_RSS_KB" ] || continue
+  throttle "amok-$pid" 600 || continue
+  if [ "$DRYRUN" = "1" ]; then
+    log "DRYRUN: wuerde Amok-Suchprozess killen (pid $pid, $((rss/1024))MB, $((etimes/60))min): ${args:0:60}"
+  else
+    kill -9 "$pid" 2>/dev/null
+    fix "Amok-Suchprozess gekillt (pid $pid, $((rss/1024))MB, $((etimes/60))min): ${args:0:60}"
+  fi
+done < <(ps -eo pid=,etimes=,rss=,args= | grep -E '(^| )(r[g]|ugre[p]|gre[p]) ')
+
+# --- 4. Globale RAM-Not ---
 avail=$(awk '/MemAvailable/{print int($2/1024)}' /proc/meminfo)
 if [ "${avail:-9999}" -lt 400 ]; then
   if throttle "lowmem" 1800; then

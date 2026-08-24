@@ -170,8 +170,8 @@ Dienstag aus dem Zielbild, Werte, Regeln, Affirmationen, Meilensteine.
 Schreiben nach coaching/context/identity/master-vision.md, dem Menschen
 zeigen und fragen, was fehlt. Irgendwas fehlt immer.
 
-(Die gehostete, vom Handy erreichbare Version dieser Seite ist ein
-eigenes Modul und kommt spaeter, nicht hier.)
+(Die gehostete, vom Handy erreichbare Version dieser Seite ist das
+Modul Master-Vision-Seite im /setup-Katalog.)
 
 `echo done > coaching/context/identity/.setup-progress`
 

@@ -14,6 +14,10 @@ Environment=HOME=/root
 # sonst findet der Dienst den Token nicht (Vorfall 24.08.2026: Dienst lief,
 # Bot blieb stumm).
 Environment=TELEGRAM_STATE_DIR=/root/.claude/channels/telegram-haupt
+# Dienst-Kurzname fuer die Session-Wiederaufnahme: session-track.sh schreibt
+# die Pointer-Datei /root/.assistent-session-haupt, das Startskript resumt
+# daraus (Details: wissen/selbstheilung.md).
+Environment=ASSISTENT_DIENST=haupt
 # script -qfec liefert eine Pseudo-Konsole. Ohne sie haengt Claude Code
 # beim ersten Dialog, der auf Tastatureingabe wartet.
 ExecStart=/usr/bin/script -qfec "/usr/local/bin/assistent-bot-start" /root/.assistent-bot.log
@@ -21,6 +25,8 @@ Restart=always
 RestartSec=15
 MemoryHigh=3G
 MemoryMax=4G
+# Kind-Prozess-OOM (z. B. eine Amok-Suche) darf nicht den ganzen Dienst toeten.
+OOMPolicy=continue
 
 [Install]
 WantedBy=multi-user.target

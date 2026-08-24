@@ -69,5 +69,21 @@ schlichter, aber eine schlichte Stimme schlaegt gar keine.
 mehrere Schluessel nur aus VERSCHIEDENEN Cloud-Projekten sinnvoll, Kontingente
 haengen am Projekt).
 
+**Installation der lokalen Stimme** (so laeuft es im Produktiv-Betrieb): piper
+kommt per pip, die deutsche Stimme als Download von Hugging Face
+(Projekt rhasspy/piper-voices) nach `/root/.local/share/piper-voices/`:
+
+```bash
+pip install piper-tts        # legt das Kommando piper an; command -v piper prueft es
+mkdir -p /root/.local/share/piper-voices
+cd /root/.local/share/piper-voices
+wget https://huggingface.co/rhasspy/piper-voices/resolve/main/de/de_DE/thorsten/medium/de_DE-thorsten-medium.onnx
+wget https://huggingface.co/rhasspy/piper-voices/resolve/main/de/de_DE/thorsten/medium/de_DE-thorsten-medium.onnx.json
+```
+
+Die `.onnx.json` neben der `.onnx` ist Pflicht, ohne sie startet piper nicht.
+`skripte/sprachmemo.sh` erwartet genau diesen Pfad (ueberschreibbar per
+`PIPER_STIMME`).
+
 **Fertig wenn:** `echo "Test" | ./skripte/sprachmemo.sh - --no-send` erzeugt auch
 ohne gesetzten `GEMINI_API_KEY` eine Audiodatei (Meldung "nutze lokale Stimme").

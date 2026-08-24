@@ -66,7 +66,8 @@ Probe-Aufruf (z. B. eine Suche oder ein Listen-Abruf).
 ## Web und Funnel bauen
 
 - **Netlify [Empfohlen].** Hosting mit CLI und MCP, GitHub-Anbindung; der Agent
-  deployt und verwaltet Seiten selbst. Schluessel im Chat. Fallen: die CLI sucht
+  deployt und verwaltet Seiten selbst. Installation der CLI:
+  `npm install -g netlify-cli`. Schluessel im Chat. Fallen: die CLI sucht
   die Site-Verknuepfung auch in ELTERN-Ordnern, ein Deploy aus dem falschen
   Verzeichnis geht auf die falsche Site (bei uns mehrfach, einmal mit Stunden
   Ausfall einer Live-Site am 19.06.2026); deshalb IMMER `--site <id>` anhaengen

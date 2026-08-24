@@ -25,6 +25,9 @@ git --version
 ffmpeg -version 2>/dev/null | head -1 || echo "ffmpeg: fehlt"
 chromium --version 2>/dev/null || chromium-browser --version 2>/dev/null || echo "chromium: fehlt"
 python3 -c "import faster_whisper; print('faster-whisper: ok')" 2>/dev/null || echo "faster-whisper: fehlt"
+gh --version 2>/dev/null | head -1 || echo "gh: fehlt"
+gitleaks version 2>/dev/null || echo "gitleaks: fehlt"
+grep -q superpowers /root/.claude/plugins/installed_plugins.json 2>/dev/null && echo "superpowers: ok" || echo "superpowers: fehlt"
 ls /root/assistent 2>/dev/null && git -C /root/assistent remote -v || echo "repo: fehlt"
 ls /root/.claude/channels/ 2>/dev/null || echo "kanal-ordner: keine"
 systemctl list-units --type=service --all 'assistent*' 'waechter*' 'nacht*' --no-pager
@@ -87,6 +90,43 @@ taeglich um 7:00." Vorlagen fuer Unit und Timer: vorlagen/.
 Fertig wenn: `systemctl list-timers --no-pager` den Timer mit echtem
 NEXT-Zeitpunkt zeigt (kein Strich).
 
+## Ausblick, direkt nach der VS-Code-Verbindung
+
+Sobald die VS-Code-Verbindung steht (Phase 2), einmal kompakt zeigen, wohin
+die Reise geht. Eine kurze, konkrete Tour, keine Featureliste; sie sitzt
+frueh, damit der Mensch weiss, wofuer die naechsten Schritte sind.
+
+**Das wirst du haben:** einen Telegram-Assistenten rund um die Uhr auf diesem
+Server. Sprachnachricht rein, Sprachmemo raus. Mail-Entwuerfe kommen als Bild
+zur Freigabe, nichts geht ungefragt raus. Ein Morgenreport zur Wunschzeit.
+Ein eigener Coach-Bot mit festen Ritualen. Und Selbstheilung: faellt etwas
+aus, repariert sich das System selbst und meldet es.
+
+**Das sind die eingebauten Faehigkeiten** (je ein Satz, in den Worten des
+Menschen erzaehlen):
+
+- daily-review: der Tagesabschluss am Abend.
+- weekly-review: der Wochenrueckblick am Sonntag.
+- monthly-review: der Monatsrueckblick zum Monatsende.
+- morning-ritual: der Start in den Tag mit Plan und Fokus.
+- plan-week: die Woche einmal sauber durchplanen.
+- coach-mode: ein freies Coaching-Gespraech, wann immer gebraucht.
+- coach-setup: das grosse Ziele-Gespraech, das das Coaching aufsetzt.
+- breakthrough: eine Tiefen-Session, wenn etwas feststeckt.
+- prime: der Assistent laedt seinen kompletten Kontext.
+- project: volles Projektwissen laden oder ein neues Projekt anlegen.
+- push-tasks: offene Aufgaben in die Aufgabenliste druecken.
+- email: Posteingang sichten und vorsortieren.
+- focus: Hilfe beim Anfangen, wenn der Kopf blockiert.
+- cleanup: Ordner und Ablage aufraeumen, erst als Vorschau.
+- kit-abgleich: einmal die Woche schauen, was es im Kit Neues gibt.
+
+**Und danach:** der Tool-Katalog (Mail, Kalender, Aufgaben und mehr) kommt in
+einer eigenen Session, Stueck fuer Stueck nach Wahl.
+
+Abschluss immer: "Jetzt bauen wir das. Naechster Schritt: ..." und den
+tatsaechlich naechsten Schritt nennen.
+
 ## Onboarding-Showcase, nach dem ersten Bot
 
 Sobald der erste Bot antwortet (Ende Phase 4), nicht einfach "fertig" sagen.
@@ -145,6 +185,9 @@ ein Lese-Testaufruf Daten liefert.
 
 Sprachnachrichten rein (Transkription lokal, skripte/transcribe.py) und
 Sprachmemos raus (skripte/sprachmemo.sh). Braucht ffmpeg und faster-whisper.
+Fuer die kontingentfreie Fallback-Stimme: piper per `pip install piper-tts`
+plus die Stimme de_DE-thorsten-medium nach /root/.local/share/piper-voices/
+(genauer Ablauf: wissen/sprache.md).
 
 Fertig wenn: eine Test-Sprachnachricht des Menschen korrekt transkribiert
 wurde und ein Sprachmemo im richtigen Chat angekommen ist.
@@ -158,9 +201,27 @@ das Ziele-Gespraech (Skill coach-setup): 60 bis 90 Minuten, fuellt
 Identitaet, Werte und Zielbild. Danach laufen daily-review, weekly-review
 und monthly-review.
 
+Fester Bestandteil des Moduls sind die drei Review-Timer: taeglich abends
+der Tagesabschluss (daily-review), sonntags der Wochenrueckblick
+(weekly-review), am Monatsende der Monatsrueckblick (monthly-review).
+Uhrzeiten beim Menschen erfragen (Regel 5 gilt). Der Timer schickt nur die
+Erinnerung ueber den Coach-Bot; das Ritual selbst startet erst, wenn der
+Mensch darauf antwortet.
+
 Fertig wenn: der Coaching-Bot in seinem eigenen Chat antwortet, der
-Hauptbot davon unberuehrt weiterlaeuft und das Ziele-Gespraech
-abgeschlossen ist (.setup-progress steht auf done).
+Hauptbot davon unberuehrt weiterlaeuft, das Ziele-Gespraech
+abgeschlossen ist (.setup-progress steht auf done) und die drei
+Review-Timer in `systemctl list-timers` mit echtem NEXT stehen.
+
+### Master-Vision-Seite
+
+Die Ein-Seiten-Zusammenfassung aus dem Ziele-Gespraech (Stufe 10 von
+coach-setup) als gehostete, passwortgeschuetzte Seite: vom Handy lesbar
+und editierbar, ohne Deploy. Vorlage: vorlagen/master-vision-site/
+(Anleitung im dortigen README). Braucht Netlify (wissen/tool-stack.md).
+
+Fertig wenn: die Seite hinter dem Passwort laedt und die Master-Vision
+zeigt.
 
 ### Automatik
 
@@ -174,7 +235,11 @@ und der Waechter einen absichtlich gestoppten Bot wieder hochgeholt hat.
 ### Weitere Bots
 
 Je Zweck ein Bot: eigener Token, eigener Kanal-Ordner, eigene Rolle als
-Kopie aus vorlagen/bot-rolle.md, eigener systemd-Dienst.
+Kopie aus vorlagen/bot-rolle.md, eigener systemd-Dienst. Jeder neue Dienst
+kommt in SERVICES der waechter.conf. Ab dem zweiten Bot zusaetzlich den
+woechentlichen Reihum-Neustart einrichten: vorlagen/wochen-neustart.service
+plus vorlagen/wochen-neustart.timer (sonntags 04:00, startet alle Dienste
+aus waechter.conf gestaffelt neu).
 
 Fertig wenn: der neue Bot in seinem Chat antwortet und
 `systemctl status <dienst>` aktiv zeigt.

@@ -4,12 +4,18 @@
 
 **Regel:** Vor Claude-Login und Bot-Setup die komplette Grundausstattung installieren:
 `git curl jq ripgrep tmux ffmpeg python3-pip unzip`, Node 22, **bun**, die
-GitHub-CLI **gh** und ein headless Chromium, dazu faster-whisper fuer die
-Transkription. bun ist Pflicht, nicht Kuer: das Telegram-Plugin laeuft darauf.
-gh ebenso: ohne gh scheitern die GitHub-Sicherung (Device-Flow `gh auth login`,
-`gh repo create`) in Phase 3 und die Feedback-Tickets (`gh issue create`) des
-Kit-Abgleichs. Chromium braucht die Mail-Vorschau und jedes Seiten-Pruefen,
-ffmpeg die Sprachmemos.
+GitHub-CLI **gh**, **gitleaks** und ein headless Chromium, dazu faster-whisper
+fuer die Transkription. bun ist Pflicht, nicht Kuer: das Telegram-Plugin laeuft
+darauf. gh ebenso: ohne gh scheitern die GitHub-Sicherung (Device-Flow
+`gh auth login`, `gh repo create`) in Phase 3 und die Feedback-Tickets
+(`gh issue create`) des Kit-Abgleichs. gitleaks (Binary aus den
+GitHub-Releases nach /usr/local/bin) scannt vor jedem Push auf Geheimnisse,
+siehe `wissen/sicherung-github.md`. Chromium braucht die Mail-Vorschau und
+jedes Seiten-Pruefen, ffmpeg die Sprachmemos.
+
+Nach dem Claude-Login gehoert ausserdem das Plugin-Paket **superpowers** dazu
+(Arbeits-Skills fuer Debugging, Plaene, Code-Review): in einer Claude-Sitzung
+`/plugin install superpowers@claude-plugins-official` ausfuehren.
 
 **Warum:** Beim ersten Live-Setup mit einer Gruppe am 24.08.2026 blieb der Bot eines
 Teilnehmers stumm, obwohl Dienst und Token korrekt waren. Ursache: bun fehlte, das
@@ -21,11 +27,13 @@ diese Grundausstattung voraus.
 
 **Fertig wenn:**
 ```
-for c in git jq ffmpeg node bun gh python3; do command -v $c || echo "FEHLT: $c"; done
+for c in git jq ffmpeg node bun gh gitleaks python3; do command -v $c || echo "FEHLT: $c"; done
 command -v chromium || command -v chromium-browser || command -v google-chrome
 gh --version
+grep -q superpowers /root/.claude/plugins/installed_plugins.json 2>/dev/null && echo "superpowers: ok" || echo "superpowers: fehlt"
 ```
-Ausgabe: nur Pfade und eine gh-Versionszeile, keine `FEHLT:`-Zeile.
+Ausgabe: nur Pfade, eine gh-Versionszeile und `superpowers: ok`, keine
+`FEHLT:`-Zeile.
 
 ## Login-Link im Ganzen kopieren
 
@@ -59,3 +67,12 @@ ohnehin nur auf dem Server.
 
 **Fertig wenn:** `hostname` zeigt den Namen des Servers (steht im Panel des
 Anbieters), nicht den des eigenen Rechners.
+
+## apport maskieren gegen Core-Dump-Fluten
+
+**Regel:** Auf Ubuntu-Servern apport maskieren: `systemctl mask apport`. Stirbt
+ein Bot-Kind am Speicherlimit (OOM), schreibt apport sonst pro Absturz
+riesige Core-Dumps nach /var/crash, bis die Platte voll ist und alle Dienste
+mitreisst.
+
+**Fertig wenn:** `systemctl is-enabled apport 2>&1` zeigt `masked`.

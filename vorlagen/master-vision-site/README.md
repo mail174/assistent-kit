@@ -8,6 +8,7 @@ Aendern, kein Deploy.
 
 ```bash
 npm install
+npm install -g netlify-cli    # falls die CLI noch fehlt
 netlify login
 netlify sites:create          # oder: netlify link
 netlify env:set MV_PASSWORD "<passwort>"

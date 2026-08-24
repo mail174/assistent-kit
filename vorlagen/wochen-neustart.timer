@@ -1,0 +1,11 @@
+[Unit]
+# Sonntags um 04:00, bewusst versetzt zum taeglichen Nacht-Neustart (04:30).
+# Persistent holt einen verpassten Lauf nach.
+Description=Wochen-Neustart sonntags 04:00
+
+[Timer]
+OnCalendar=Sun *-*-* 04:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

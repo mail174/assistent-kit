@@ -15,4 +15,18 @@ EXTRA=(--permission-mode acceptEdits --model opus --effort max)
 ROLLE="/root/assistent/rollen/bot-rolle.md"
 [ -s "$ROLLE" ] && EXTRA+=(--append-system-prompt "$(cat "$ROLLE")")
 
+# Session-Wiederaufnahme: der session-track-Hook (skripte/session-track.sh,
+# Verdrahtung nach vorlagen/settings-muster.json) schreibt bei jeder Nachricht
+# die Session-ID des Dienstes in die Pointer-Datei. Beim Neustart wird genau
+# diese Session wiederaufgenommen; der Chat-Kontext ueberlebt so Nacht-,
+# Wochen- und Waechter-Neustarts. Ohne gueltigen Pointer (erster Start, Hook
+# noch nicht verdrahtet) startet der Bot frisch.
+DIENST="${ASSISTENT_DIENST:-haupt}"
+SID=$(tr -d '[:space:]' < "/root/.assistent-session-$DIENST" 2>/dev/null)
+if [ -n "$SID" ] && [ -n "$(find /root/.claude/projects -maxdepth 2 -name "$SID.jsonl" 2>/dev/null | head -1)" ]; then
+  claude --resume "$SID" --channels "$CH" "${EXTRA[@]}"
+  rc=$?
+  [ "$rc" -eq 0 ] && exit 0
+  echo "[assistent-bot-start] Wiederaufnahme von Session $SID fehlgeschlagen (rc=$rc), starte frisch" >&2
+fi
 exec claude --channels "$CH" "${EXTRA[@]}"

@@ -17,7 +17,8 @@ Bot in dieser Reihenfolge pruefen (vom Billigsten zum Teuersten):
    Dauerfix: die Bot-Rolle verbietet modale Dialoge.
 4. **Toter Hintergrund-Agent:** Im Log steht `Waiting for ... background agent`
    mit hochzaehlender Dauer. Die Hauptschleife blockiert unbegrenzt. Fix:
-   Neustart, die Session wird wiederaufgenommen, Kontext bleibt.
+   Neustart; der Kontext bleibt nur mit eingerichteter Session-Wiederaufnahme
+   (siehe "Neustart darf den Chat-Kontext nicht kosten" unten).
 
 Der Waechter prueft das alle drei Minuten automatisch und meldet jede Aktion per
 Telegram.
@@ -52,6 +53,35 @@ eingebaut).
 
 **Fertig wenn:** `systemctl show -p NRestarts --value assistent-bot` bleibt ueber
 Tage im niedrigen einstelligen Bereich.
+
+## Neustart darf den Chat-Kontext nicht kosten
+
+**Regel:** Jeder Neustart (Nacht-Timer, Wochen-Neustart, Waechter) beendet die
+laufende Claude-Session. Ohne Vorsorge beginnt der Bot danach mit leerem
+Gedaechtnis, und der Mensch redet jeden Morgen mit einem Fremden. Deshalb
+gehoert zu jedem Bot-Dienst die Session-Wiederaufnahme: ein Hook merkt sich bei
+jedem Session-Start und jeder Nachricht die Session-ID in einer Pointer-Datei
+(`/root/.assistent-session-<dienst>`), das Startskript nimmt beim naechsten
+Start genau diese Session wieder auf. Schlaegt die Wiederaufnahme fehl, startet
+der Bot frisch und schreibt den Grund ins Log, statt zu haengen. Das gilt auch
+fuer den woechentlichen Reihum-Neustart aller Bots gegen Speicher-Bloat
+(`vorlagen/wochen-neustart.service` + `.timer`, sonntags 04:00, gestaffelt ueber
+`skripte/wochen-neustart.sh`).
+
+**Warum:** Ein Neustart-Timer sieht von aussen immer gesund aus; dass der Bot
+dabei jedes Mal den kompletten Gespraechsstand verlor, fiel bei uns erst an
+Rueckfragen wie "wovon redest du?" auf. Der Verlust ist unsichtbar, bis der
+Mensch ihn bemerkt.
+
+**Werkzeug:** `skripte/session-track.sh` (der Hook),
+`vorlagen/settings-muster.json` (Hook-Verdrahtung fuer ~/.claude/settings.json,
+Erklaerung und Merge-Regeln in `vorlagen/settings-muster.md`) und der
+Resume-Zweig in `vorlagen/assistent-bot-start`; `ASSISTENT_DIENST` setzt
+`vorlagen/assistent-bot.service`.
+
+**Fertig wenn:** Die Pointer-Datei `/root/.assistent-session-<dienst>` existiert
+und enthaelt eine Session-ID, und nach `systemctl restart assistent-bot`
+beantwortet der Bot eine Frage mit Bezug auf den Chat-Verlauf davor.
 
 ## Timer-Abnahme: enabled ist nicht gestartet
 
