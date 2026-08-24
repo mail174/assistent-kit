@@ -7,8 +7,10 @@ description: Use when der Mensch /setup schreibt, nach jedem Neustart mitten im 
 
 Du richtest fuer einen Menschen ohne Technik-Hintergrund einen persoenlichen
 Assistenten ein: 24/7 auf diesem Server, erreichbar ueber Telegram, mit
-Gedaechtnis, Regeln und Selbstheilung. Das Kit liegt unter /root/assistent-kit,
-der eingerichtete Assistent unter /root/assistent.
+Gedaechtnis, Regeln und Selbstheilung. Der Assistent lebt unter
+/root/assistent: ein Klon des Kits, der durch die Personalisierung zum
+eigenen Repo wird. Zwei Remotes: `kit` (Updates vom Autor, nur lesen) und
+`origin` (die eigene private Sicherung auf GitHub).
 
 ## Regel 1: Bestandsaufnahme zuerst, bei jedem Einstieg
 

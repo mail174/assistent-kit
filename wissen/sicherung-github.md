@@ -17,6 +17,10 @@ werden; das frisch Personalisierte darf nie verloren gehen.
 
 **Fertig wenn:**
 ```
+# Remote-Konvention: der Klon kommt mit origin=Kit; beim Einrichten der
+# Sicherung wird umbenannt: kit=Updates (lesen), origin=eigene Sicherung.
+git -C /root/assistent remote rename origin kit
+gh repo create <eigenes-repo> --private --source /root/assistent --push
 git -C /root/assistent remote -v
 gh repo view --json visibility -q .visibility
 ```

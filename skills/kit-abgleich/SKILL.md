@@ -6,7 +6,7 @@ description: Use when der woechentliche Kit-Abgleich-Timer feuert, der Mensch na
 # Kit-Abgleich
 
 Gleicht den eingerichteten Assistenten mit dem Assistent-Kit ab und schlaegt
-Neues in einfacher Sprache vor. KIT_KLON=/root/assistent-kit (die lokale
+Neues in einfacher Sprache vor. Gearbeitet wird im eigenen Repo /root/assistent mit dem Remote `kit` (die
 Kopie dieses Kit-Repos auf dem Server, siehe README.md dort).
 
 ## Einbahn-Prinzip
@@ -18,7 +18,7 @@ gelesen, nie per `git push` beschrieben.
 
 ## Ablauf
 
-1. **Fetch:** `git -C /root/assistent-kit fetch`
+1. **Fetch:** `git -C /root/assistent fetch kit`
 2. **Diff seit Marker:** Datei `context/kit-stand.md` haelt den zuletzt
    behandelten Commit-Hash des Kit-Klons plus Datum. Existiert die Datei
    noch nicht, ist das der erste Lauf: als Marker den aktuellen HEAD des
@@ -26,7 +26,7 @@ gelesen, nie per `git push` beschrieben.
    "neu", wenn es der erste Abgleich ist).
    ```bash
    ALT=$(cat context/kit-stand.md 2>/dev/null | head -1)
-   git -C /root/assistent-kit log --stat "${ALT}..origin/main"
+   git -C /root/assistent log --stat "${ALT}..kit/main"
    ```
 3. **Gruppieren:** die veraenderten Dateien nach Bereich sortieren:
    `wissen/`, `vorlagen/`, `skripte/`, `skills/`. Jeder Bereich einzeln
