@@ -1,0 +1,10 @@
+[Unit]
+# Jede Nacht um 04:30, Persistent holt einen verpassten Lauf nach.
+Description=Nacht-Neustart assistent-bot taeglich 04:30
+
+[Timer]
+OnCalendar=*-*-* 04:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

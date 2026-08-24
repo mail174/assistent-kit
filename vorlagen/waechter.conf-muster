@@ -1,0 +1,9 @@
+# Muster fuer /root/assistent/skripte/waechter.conf
+# Wird von waechter.sh gelesen.
+
+# Zu ueberwachende systemd-Dienste, mit Leerzeichen getrennt,
+# z. B. "assistent-bot assistent-coaching":
+SERVICES="assistent-bot"
+
+# Telegram-ID des Betreibers, dorthin gehen die Waechter-Meldungen:
+CHAT_ID=

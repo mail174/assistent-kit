@@ -1,0 +1,26 @@
+[Unit]
+Description=Assistent Telegram Listener
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=root
+WorkingDirectory=/root/assistent
+EnvironmentFile=/root/.assistent-env
+Environment=HOME=/root
+# Eigener Zustandsordner je Bot, sonst kapern sich die Bots gegenseitig.
+# ACHTUNG: STATE_DIR hier und im Startskript muessen identisch sein, und
+# zwar genau der Ordner, in dem /telegram:configure den Token abgelegt hat,
+# sonst findet der Dienst den Token nicht (Vorfall 24.08.2026: Dienst lief,
+# Bot blieb stumm).
+Environment=TELEGRAM_STATE_DIR=/root/.claude/channels/telegram-haupt
+# script -qfec liefert eine Pseudo-Konsole. Ohne sie haengt Claude Code
+# beim ersten Dialog, der auf Tastatureingabe wartet.
+ExecStart=/usr/bin/script -qfec "/usr/local/bin/assistent-bot-start" /root/.assistent-bot.log
+Restart=always
+RestartSec=15
+MemoryHigh=3G
+MemoryMax=4G
+
+[Install]
+WantedBy=multi-user.target

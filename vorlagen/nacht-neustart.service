@@ -1,0 +1,7 @@
+[Unit]
+# Naechtlicher Neustart des Bots: raeumt langsam wachsenden Speicher auf.
+Description=Nacht-Neustart assistent-bot
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart assistent-bot

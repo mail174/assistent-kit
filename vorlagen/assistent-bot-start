@@ -1,0 +1,16 @@
+#!/bin/bash
+# Startet den Telegram-Listener.
+# Modell hart gesetzt: verhindert das stille Runterfallen auf ein Modell,
+# dessen Monatslimit den Bot lahmlegt.
+#
+# ACHTUNG: TELEGRAM_STATE_DIR kommt aus der Dienstdatei (assistent-bot.service).
+# STATE_DIR hier und im Dienst muessen identisch sein mit dem Ordner, in dem
+# /telegram:configure den Token abgelegt hat, sonst findet der Dienst den
+# Token nicht und der Bot startet stumm ohne Kanal.
+CH="plugin:telegram@claude-plugins-official"
+EXTRA=(--permission-mode acceptEdits --model opus)
+
+ROLLE="/root/assistent/skripte/bot-rolle.md"
+[ -s "$ROLLE" ] && EXTRA+=(--append-system-prompt "$(cat "$ROLLE")")
+
+exec claude --channels "$CH" "${EXTRA[@]}"

@@ -1,0 +1,8 @@
+[Unit]
+# Selbstheilung: prueft die Bot-Dienste und startet Haenger neu.
+Description=Assistent Waechter (Selbstheilung der Bots)
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/root/assistent/skripte/waechter.sh

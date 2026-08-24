@@ -1,0 +1,11 @@
+[Unit]
+# Startet den Waechter kurz nach dem Hochfahren, danach alle 3 Minuten.
+Description=Assistent Waechter alle 3 Minuten
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=3min
+AccuracySec=15s
+
+[Install]
+WantedBy=timers.target

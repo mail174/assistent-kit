@@ -1,0 +1,12 @@
+# Muster fuer /root/.assistent-env
+# Zweck: API-Schluessel fuer die Dienste, wird von systemd per
+# EnvironmentFile geladen. Kopieren nach /root/.assistent-env,
+# eigene Werte eintragen, dann absichern:
+#   chmod 600 /root/.assistent-env
+# Diese Datei liegt NIE im Repo und wird nie committet.
+#
+# Bot-Tokens liegen NICHT hier: die verwaltet das Telegram-Plugin
+# selbst im jeweiligen Kanal-Ordner unter /root/.claude/channels/.
+
+# Fuer Sprachmemos (Sprachsynthese), optional:
+GEMINI_API_KEY=
