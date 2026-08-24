@@ -69,8 +69,9 @@ claude.ai-Einstellungen im Browser am eigenen Geraet; null Technik, sofort im
 Chat nutzbar. Einschraenkung: in headless laufenden Sessions (Bot-Dienste,
 Timer) nicht zuverlaessig verfuegbar. (b) **Server-seitige MCPs mit OAuth**
 ueber den VS-Code-Arbeitsplatz: robuster Weg fuer Bots und Automatik.
-Empfehlung des Concierge: erst (a) fuer den sofortigen Nutzen, (b) nachruesten,
-sobald Automatik auf Mail/Kalender zugreifen soll.
+Empfehlung: **Weg (b) ist der Standard.** Ein Anschluss, der ueberall
+traegt, auch fuer Bots, Timer und Automatik. Weg (a) ist nur eine optionale
+Ergaenzung fuer den Chat und ersetzt (b) nicht.
 
 
 ## Web und Funnel bauen
