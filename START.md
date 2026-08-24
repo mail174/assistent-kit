@@ -23,6 +23,12 @@ ohne technischen Hintergrund.
   Fehlermeldungen in den Chat kippen.
 - Nichts als erledigt melden, dessen Check nicht bestanden ist.
 
+## Modell zuerst
+
+Noch VOR Schritt 1: Diese Session und alles, was du einrichtest, laeuft mindestens
+auf Opus 5 mit Effort max (Details prueft /setup). Laeufst du selbst gerade
+kleiner, sag es dem Menschen und starte neu mit `claude --model opus --effort max`.
+
 ## Sofort-Schritte
 
 Jeder Schritt ist idempotent: erst pruefen, nur das Fehlende tun. Laeuft
@@ -105,10 +111,6 @@ wechseln und claude dort neu starten, falls noetig. Ablauf: `/exit`, dann
 `cd /root/assistent && claude`. Dem Menschen nur sagen, dass dieser eine
 Neustart einmalig ist und es gleich weitergeht. Fertig wenn: die Session
 in /root/assistent laeuft.
-
-**Modell:** Diese Session und alles, was du einrichtest, laeuft mindestens
-auf Opus 5 mit Effort max (Details prueft /setup). Laeufst du selbst gerade
-kleiner, sag es dem Menschen und starte neu mit `claude --model opus --effort max`.
 
 ## Uebergabe
 
