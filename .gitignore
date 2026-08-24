@@ -1,0 +1,9 @@
+*.env
+.env*
+*.token
+*.key
+__pycache__/
+*.pyc
+*.ogg
+*.wav
+*.png
