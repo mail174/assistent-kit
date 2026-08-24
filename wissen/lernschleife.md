@@ -46,7 +46,7 @@ Gedaechtnis-Datei. Guardrails werden bei jedem Start geladen; das Gedaechtnis
 nur bei Beruehrung des Themas.
 
 **Warum:** Bei uns stand die Gedankenstrich-Regel im Gedaechtnis und wurde am
-14.08.2026 trotzdem in einer Mail an den Steuerberater gerissen. Erst als
+14.08.2026 trotzdem in einer Mail an einen externen Empfaenger gerissen. Erst als
 Guardrail mit Pruefbefehl (`grep` vor dem Rausgeben) hielt sie. Eine zweite
 Datei zum selben Thema haette nur die Ablage verdoppelt, nicht die Wirkung.
 

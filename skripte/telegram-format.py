@@ -4,7 +4,7 @@ telegram-format.py: markdownv2-Formatierer fuer Telegram.
 
 Telegram verlangt in markdownv2, dass JEDES Vorkommen der reservierten
 Zeichen  _ * [ ] ( ) ~ ` > # + - = | { } . !  mit einem Backslash escaped
-wird, auch in Zahlen ("10.713") und URLs. Ein vergessenes Zeichen laesst
+wird, auch in Zahlen ("12.345") und URLs. Ein vergessenes Zeichen laesst
 den API-Call mit "Character '.' is reserved" scheitern. Hand-Escaping ist
 deshalb verboten, dieses Skript macht es zuverlaessig.
 

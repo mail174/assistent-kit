@@ -64,8 +64,8 @@ zwei Saetze. Vor dem Rausgeben pruefen.
 
 **Warum:** Der Langstrich ist das bekannteste Erkennungszeichen fuer
 maschinengeschriebenen Text und wirkt unauthentisch. Bei uns stand die Regel nur
-im Gedaechtnis und wurde am 14.08.2026 trotzdem in einer Mail an den
-Steuerberater gerissen; seitdem ist sie Guardrail mit Pruefbefehl.
+im Gedaechtnis und wurde am 14.08.2026 trotzdem in einer Mail an einen
+externen Empfaenger gerissen; seitdem ist sie Guardrail mit Pruefbefehl.
 
 **Werkzeug:** `vorlagen/CLAUDE.md` (Guardrail 7).
 

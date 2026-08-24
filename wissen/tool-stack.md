@@ -38,7 +38,7 @@ Probe-Aufruf (z. B. eine Suche oder ein Listen-Abruf).
 ## Kommunikation
 
 - **Gmail per MCP [Empfohlen].** Suchen, lesen, entwerfen, Labels; MEHRERE
-  Konten als getrennte MCP-Instanzen (der Autor faehrt vier). OAuth via VS Code.
+  Konten als getrennte MCP-Instanzen moeglich. OAuth via VS Code.
   Senden nur nach `wissen/mail-freigabe.md`.
 - **Google Kalender [Empfohlen].** Termine lesen und anlegen. OAuth via VS Code.
   Falle: IMMER alle Kalender abfragen, nicht nur den primaeren; bei uns wurde am
@@ -86,7 +86,7 @@ Probe-Aufruf (z. B. eine Suche oder ein Listen-Abruf).
 ## Daten
 
 - **Supabase [Empfohlen].** Postgres mit MCP, AI-native. Ausdrueckliche
-  Empfehlung STATT Airtable; der Autor nutzt Airtable nur aus Vor-KI-Zeiten.
+  Empfehlung STATT Airtable; Airtable nur, wenn es schon im Einsatz ist; fuer Neues Supabase.
   OAuth via VS Code. Fallen (beide scheitern lautlos, gefunden 21.08.2026 im
   Review): Zeilen-Sicherheit (RLS) wirkt pro Zeile, nicht pro Spalte, wer seine
   Zeile aendern darf, darf auch seine Rolle aendern, Spaltenrechte setzen; und

@@ -22,7 +22,7 @@ sichtbare Sternchen.
 ## Escaping nie von Hand
 
 **Regel:** In markdownv2 muss JEDES Vorkommen von ``_ * [ ] ( ) ~ ` > # + - = | { } . !``
-escaped sein, auch in Zahlen ("10.713") und URLs. Deshalb: Text komplett per
+escaped sein, auch in Zahlen ("12.345") und URLs. Deshalb: Text komplett per
 Skript escapen, Format-Marker danach einsetzen. Hand-Escaping ist verboten.
 
 **Warum:** Ein einziges vergessenes Zeichen laesst den ganzen Aufruf mit
@@ -35,6 +35,6 @@ markdownv2 raus).
 
 **Fertig wenn:**
 ```
-echo '**10.713 EUR** ok!' | python3 skripte/telegram-format.py
+echo '**12.345 EUR** ok!' | python3 skripte/telegram-format.py
 ```
 Ausgabe: `*10\.713 EUR* ok\!`

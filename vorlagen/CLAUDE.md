@@ -100,10 +100,10 @@ standardmaessig genutzt; kleine Handgriffe brauchen den Apparat nicht.
 |------------------------------|-------------------------------|
 | <Projektname>, <Kuerzel>      | projects/<x>/<x>.md          |
 | Preise, Angebote, Strategie  | context/strategie.md          |
-| Copy, Headlines, Mails, VSLs | context/marketing/copywriting.md |
-| Sales Letter, Advertorial    | context/marketing/sales-letter.md |
-| Funnel, Quiz, Angebotstreppe | context/marketing/funnel.md   |
-| Anzeige entwerfen oder pruefen | context/marketing/ad-check.md |
+| Marketing, Copy, Anzeigen    | context/marketing/marketing.md |
+| Buchhaltung, Rechnungen      | context/buchhaltung.md        |
+| Kunde <X>                    | projects/<x>/<x>.md           |
+| Recherche-Notizen            | context/recherche.md          |
 
 ## Faehigkeiten, einfach machen, kein "Soll ich?"
 

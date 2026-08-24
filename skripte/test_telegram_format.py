@@ -30,7 +30,7 @@ tf = _load_module()
 
 class TelegramFormatTests(unittest.TestCase):
     def test_zahl_mit_punkt(self):
-        self.assertEqual(tf.format_text("Zahl 10.713 Euro"), "Zahl 10\\.713 Euro")
+        self.assertEqual(tf.format_text("Zahl 12.345 Euro"), "Zahl 12\\.345 Euro")
 
     def test_url_reserved_zeichen(self):
         self.assertEqual(
@@ -39,7 +39,7 @@ class TelegramFormatTests(unittest.TestCase):
         )
 
     def test_bold_marker(self):
-        self.assertEqual(tf.format_text("**24 Leads**"), "*24 Leads*")
+        self.assertEqual(tf.format_text("**24 Anmeldungen**"), "*24 Anmeldungen*")
 
     def test_mono_bleibt_literal(self):
         text = "Betrag `1.234,56 EUR` gebucht"
@@ -51,8 +51,8 @@ class TelegramFormatTests(unittest.TestCase):
         self.assertEqual(tf.format_text("> Wochenbericht"), "> Wochenbericht")
 
     def test_mixed_line(self):
-        text = "**3 Bewerber** kosten 1.200 EUR: https://x.de/a_b"
-        expected = "*3 Bewerber* kosten 1\\.200 EUR: https://x\\.de/a\\_b"
+        text = "**3 Lizenzen** kosten 1.200 EUR: https://x.de/a_b"
+        expected = "*3 Lizenzen* kosten 1\\.200 EUR: https://x\\.de/a\\_b"
         self.assertEqual(tf.format_text(text), expected)
 
     def test_backslash_wird_verdoppelt(self):
@@ -87,26 +87,26 @@ class TelegramFormatTests(unittest.TestCase):
     def test_cli_liest_stdin(self):
         result = subprocess.run(
             [sys.executable, str(MODULE_PATH)],
-            input="Zahl 10.713 und **fett**",
+            input="Zahl 12.345 und **fett**",
             capture_output=True,
             text=True,
             check=True,
         )
-        self.assertEqual(result.stdout, "Zahl 10\\.713 und *fett*")
+        self.assertEqual(result.stdout, "Zahl 12\\.345 und *fett*")
 
     def test_cli_liest_datei(self):
         import tempfile
 
         with tempfile.TemporaryDirectory() as d:
             f = pathlib.Path(d) / "in.txt"
-            f.write_text("**24 Leads** kosten 1.200 EUR", encoding="utf-8")
+            f.write_text("**24 Anmeldungen** kosten 1.200 EUR", encoding="utf-8")
             result = subprocess.run(
                 [sys.executable, str(MODULE_PATH), str(f)],
                 capture_output=True,
                 text=True,
                 check=True,
             )
-            self.assertEqual(result.stdout, "*24 Leads* kosten 1\\.200 EUR")
+            self.assertEqual(result.stdout, "*24 Anmeldungen* kosten 1\\.200 EUR")
 
 
 if __name__ == "__main__":
