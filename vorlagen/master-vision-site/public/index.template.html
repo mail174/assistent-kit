@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Master Vision</title>
+<style>
+  :root {
+    --bg: #0d0d0f; --fg: #f2f0ed; --mut: #8f8a82;
+    --accent: #c9a227; --line: #23232a;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 400 17px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: env(safe-area-inset-top) 0 calc(env(safe-area-inset-bottom) + 88px);
+  }
+  main { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.35rem 4rem; }
+  main:focus { outline: none; }
+  body.editing main { outline: 1px dashed var(--line); outline-offset: 12px; border-radius: 6px; }
+
+  h1 { font-size: 1.9rem; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 .4rem; }
+  h2 {
+    font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin: 3rem 0 .9rem; font-weight: 600;
+  }
+  h3 { font-size: 1.05rem; margin: 1.8rem 0 .5rem; }
+  p, li { color: #ded9d2; }
+  ul { padding-left: 1.15rem; }
+  li { margin: .35rem 0; }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 2.5rem 0; }
+  blockquote {
+    margin: 1.5rem 0; padding: .2rem 0 .2rem 1.1rem;
+    border-left: 2px solid var(--accent); color: var(--fg); font-style: italic;
+  }
+  .lead { color: var(--mut); font-size: 1.02rem; margin: 0 0 2rem; }
+
+  #editBtn {
+    position: fixed; right: 1.1rem; bottom: calc(1.1rem + env(safe-area-inset-bottom));
+    width: 54px; height: 54px; border-radius: 50%; border: 1px solid var(--line);
+    background: #17171c; color: var(--fg); font-size: 22px; cursor: pointer;
+    display: grid; place-items: center; z-index: 10;
+    box-shadow: 0 6px 24px rgba(0,0,0,.45);
+  }
+  #savePill {
+    position: fixed; left: 50%; transform: translateX(-50%);
+    bottom: calc(1.6rem + env(safe-area-inset-bottom));
+    background: #17171c; border: 1px solid var(--line); color: var(--mut);
+    padding: .45rem .95rem; border-radius: 999px; font-size: .82rem;
+    opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 10;
+  }
+  #savePill.show { opacity: 1; }
+  #savePill.ok { color: #7fd18a; }
+  #savePill.err { color: #ef8b7a; }
+</style>
+</head>
+<body>
+
+<!-- Alles innerhalb von <main> ist der editierbare Bereich und wird im Blob
+     gespeichert. Beim Setup (Stufe 10) hier die Master Vision eintragen. -->
+<main id="vision">
+
+  <h1>Master Vision</h1>
+  <p class="lead">Ersetze diesen Block beim Setup. Was hier steht, wird beim ersten
+  Speichern in den Blob geschrieben und ist danach vom Handy editierbar.</p>
+
+  <h2>North Star</h2>
+  <p>…</p>
+
+  <h2>Wer ich bin</h2>
+  <p>…</p>
+
+  <h2>Ein normaler Dienstag</h2>
+  <p>…</p>
+
+  <h2>Werte</h2>
+  <ul><li>…</li></ul>
+
+  <h2>Regeln</h2>
+  <ul><li>…</li></ul>
+
+  <h2>Affirmationen</h2>
+  <blockquote>…</blockquote>
+
+  <h2>Meilensteine</h2>
+  <ul><li>…</li></ul>
+
+</main>
+
+<button id="editBtn" aria-label="Bearbeiten">✏️</button>
+<div id="savePill" role="status" aria-live="polite"></div>
+
+<script>
+const FN = '/.netlify/functions/content';
+const main = document.getElementById('vision');
+const btn = document.getElementById('editBtn');
+const pill = document.getElementById('savePill');
+let editing = false, dirty = false, saveTimer = null, pillTimer = null;
+
+// Der Blob gewinnt gegen die statische Datei. Sobald einmal gespeichert wurde,
+// zeigt die Seite den Blob-Stand. Ein Deploy allein aendert daran nichts.
+(async () => {
+  try {
+    const r = await fetch(FN, { cache: 'no-store' });
+    if (r.ok) {
+      const html = await r.text();
+      if (html.trim()) main.innerHTML = html;
+    }
+  } catch (e) {}
+})();
+
+function setStatus(text, cls) {
+  clearTimeout(pillTimer);
+  pill.textContent = text;
+  pill.className = 'show' + (cls ? ' ' + cls : '');
+  if (cls === 'ok') pillTimer = setTimeout(() => pill.classList.remove('show'), 1600);
+}
+
+async function save() {
+  clearTimeout(saveTimer);
+  dirty = false;
+  setStatus('Speichert…');
+  try {
+    const r = await fetch(FN, { method: 'PUT', body: main.innerHTML, headers: { 'content-type': 'text/html' } });
+    if (!r.ok) throw new Error(r.status);
+    setStatus('Gespeichert ✓', 'ok');
+  } catch (e) {
+    dirty = true;
+    setStatus('Nicht gespeichert, Verbindung pruefen', 'err');
+  }
+}
+
+main.addEventListener('input', () => {
+  if (!editing) return;
+  dirty = true;
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 1200);
+});
+
+btn.addEventListener('click', () => {
+  editing = !editing;
+  main.contentEditable = editing ? 'true' : 'false';
+  document.body.classList.toggle('editing', editing);
+  btn.textContent = editing ? '✓' : '✏️';
+  if (editing) {
+    setStatus('Bearbeitungsmodus: tippe in den Text', 'ok');
+  } else if (dirty) {
+    save();
+  }
+});
+
+window.addEventListener('pagehide', () => {
+  if (dirty) fetch(FN, { method: 'PUT', body: main.innerHTML, keepalive: true });
+});
+</script>
+</body>
+</html>

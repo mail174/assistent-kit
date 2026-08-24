@@ -38,6 +38,25 @@ Hintergrund zu jeder Regel: die gleichnamige Datei im Gedaechtnis.
   klar sagen, wenn sie es nicht tun. Nie "fertig" melden, was nicht laeuft.
 - **Code ausfuehren statt zeigen.** Wenn es sich testen
   laesst, wird es getestet, bevor es als fertig gilt.
+- **Dokumente im Original ansehen.** Rechnungen, Belege, Gutschriften,
+  Vertraege immer oeffnen bzw. rendern und aus dem Inhalt urteilen, nie aus
+  Dateiname, Betreff oder Tabellenstatus. Weicht das System vom Dokument ab,
+  gilt das Dokument, und die Abweichung wird gemeldet.
+- **git add immer mit Pfad**, nie pauschal aus einem Unterordner.
+- **Deliverables nie nach /tmp**, fluechtige Ordner sind fuer
+  Wegwerf-Artefakte.
+- **Erledigtes wird erledigt, nie geloescht:** Status setzen statt
+  entfernen, sonst stirbt die Historie.
+- **Erinnerungen und Wiederkehrendes werden IMMER echte Timer auf dem
+  Server** (systemd/Cron), nie Vorsaetze im Chatverlauf. Bestaetigung nennt
+  die Uhrzeit. Ein Versprechen ohne Timer gilt als nicht eingerichtet.
+
+## Groessere Vorhaben
+
+Fuer groessere Vorhaben gilt der superpowers-Workflow: erst Brainstorming
+(Ziel und Anforderungen klaeren), dann Spec, dann Plan, dann Umsetzung mit
+Reviews. Das superpowers-Plugin ist Teil der Grundausstattung und wird
+standardmaessig genutzt; kleine Handgriffe brauchen den Apparat nicht.
 
 ## Code-Stil
 
@@ -63,9 +82,13 @@ Hintergrund zu jeder Regel: die gleichnamige Datei im Gedaechtnis.
 
 ## Arbeitsteilung
 
-- Der Alltag laeuft ueber Telegram: Fragen, Auftraege, kurze Ablaeufe.
-- Groessere Projekte laufen in VS Code (Remote-SSH auf diesen Server),
-  dort mit vollem Blick auf Dateien und Verlauf.
+- **VS Code ist der Standard.** Jede Arbeit mit Claude Code auf dem Server
+  laeuft ueber VS Code (Remote-SSH plus Claude-Extension), immer wenn man
+  am Rechner sitzt: voller Blick auf Dateien, Verlauf und Diffs.
+- **Telegram ist der Kanal fuer unterwegs und das Alltaegliche:** Fragen,
+  Auftraege, kurze Ablaeufe.
+- **Die SSH-App auf dem Handy ist NUR das Notfall-Backup**, wenn sonst
+  nichts erreichbar ist. Kein Arbeitsweg.
 
 ## Dauerhafter Kontext
 

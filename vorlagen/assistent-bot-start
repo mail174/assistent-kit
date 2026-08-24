@@ -8,7 +8,8 @@
 # /telegram:configure den Token abgelegt hat, sonst findet der Dienst den
 # Token nicht und der Bot startet stumm ohne Kanal.
 CH="plugin:telegram@claude-plugins-official"
-EXTRA=(--permission-mode acceptEdits --model opus)
+# Standard: Opus mit maximalem Effort, aenderbar wenn der Mensch anderes wuenscht.
+EXTRA=(--permission-mode acceptEdits --model opus --effort max)
 
 # Personalisierte Kopie aus vorlagen/, damit Kit-Updates per git pull konfliktfrei bleiben.
 ROLLE="/root/assistent/rollen/bot-rolle.md"
