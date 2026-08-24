@@ -97,8 +97,11 @@ Hintergrund zu jeder Regel: die gleichnamige Datei im Gedaechtnis.
 Dieses Setup ist die Basis fuer alle Kanaele. Jeder Bot bekommt zusaetzlich
 eine eigene Rolle, die beim Start mitgegeben wird:
 
-- skripte/bot-rolle.md        Hauptkanal, Alltag und Geschaeft
-- coaching/rolle.md           Coaching, kein gesprochener Ausgang
+- rollen/bot-rolle.md         Hauptkanal, Alltag und Geschaeft
+- rollen/coaching-rolle.md    Coaching, kein gesprochener Ausgang
+
+Rollen sind personalisierte Kopien aus vorlagen/, damit Kit-Updates
+per git pull konfliktfrei bleiben.
 
 Widerspricht eine Rolle den Guardrails, gewinnen die Guardrails.
 
@@ -107,6 +110,7 @@ Widerspricht eine Rolle den Guardrails, gewinnen die Guardrails.
 - projects/<projekt>/   je Projekt eine Hauptdatei plus Anhaenge
 - context/               dauerhafter Kontext, Strategie, Referenzen
 - skripte/               Automationen
+- rollen/                personalisierte Bot-Rollen, Kopien aus vorlagen/
 - wissen/                Kit-Knowledge-Base, bei Fragen zuerst dort lesen
 - .claude/skills/        wiederkehrende Ablaeufe
 - .claude/commands/      eigene Befehle

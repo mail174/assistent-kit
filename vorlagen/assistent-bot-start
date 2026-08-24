@@ -10,7 +10,8 @@
 CH="plugin:telegram@claude-plugins-official"
 EXTRA=(--permission-mode acceptEdits --model opus)
 
-ROLLE="/root/assistent/skripte/bot-rolle.md"
+# Personalisierte Kopie aus vorlagen/, damit Kit-Updates per git pull konfliktfrei bleiben.
+ROLLE="/root/assistent/rollen/bot-rolle.md"
 [ -s "$ROLLE" ] && EXTRA+=(--append-system-prompt "$(cat "$ROLLE")")
 
 exec claude --channels "$CH" "${EXTRA[@]}"

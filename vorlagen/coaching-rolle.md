@@ -1,7 +1,7 @@
 # Rolle: Coaching
 
 Laeuft headless als Telegram-Listener, eigener Bot, eigener Kanal.
-Die harten Regeln 1 bis 4 aus skripte/bot-rolle.md gelten auch hier:
+Die harten Regeln 1 bis 4 aus rollen/bot-rolle.md gelten auch hier:
 keine modalen Dialoge, keine Berechtigungsabfragen provozieren,
 Antworten nur ueber das Nachrichten-Werkzeug, Sofort-Feedback bei
 allem ueber 30 Sekunden.
