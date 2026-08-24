@@ -63,6 +63,16 @@ Probe-Aufruf (z. B. eine Suche oder ein Listen-Abruf).
   bestaetigen lassen (Kontaktsuche liefert bei haeufigen Vornamen mehrere
   Treffer). Senden nur mit Go je Nachricht.
 
+**Zwei Anschluss-Wege fuer Google (24.08.2026 in der Generalprobe erkannt):**
+(a) **claude.ai-Connectors**: der Mensch verbindet Gmail/Kalender/Drive in den
+claude.ai-Einstellungen im Browser am eigenen Geraet; null Technik, sofort im
+Chat nutzbar. Einschraenkung: in headless laufenden Sessions (Bot-Dienste,
+Timer) nicht zuverlaessig verfuegbar. (b) **Server-seitige MCPs mit OAuth**
+ueber den VS-Code-Arbeitsplatz: robuster Weg fuer Bots und Automatik.
+Empfehlung des Concierge: erst (a) fuer den sofortigen Nutzen, (b) nachruesten,
+sobald Automatik auf Mail/Kalender zugreifen soll.
+
+
 ## Web und Funnel bauen
 
 - **Netlify [Empfohlen].** Hosting mit CLI und MCP, GitHub-Anbindung; der Agent
