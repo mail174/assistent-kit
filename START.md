@@ -106,6 +106,10 @@ wechseln und claude dort neu starten, falls noetig. Ablauf: `/exit`, dann
 Neustart einmalig ist und es gleich weitergeht. Fertig wenn: die Session
 in /root/assistent laeuft.
 
+**Modell:** Diese Session und alles, was du einrichtest, laeuft mindestens
+auf Opus 5 mit Effort max (Details prueft /setup). Laeufst du selbst gerade
+kleiner, sag es dem Menschen und starte neu mit `claude --model opus --effort max`.
+
 ## Uebergabe
 
 Ab hier fuehrt dich der Skill /setup: Bestandsaufnahme zuerst, dann der

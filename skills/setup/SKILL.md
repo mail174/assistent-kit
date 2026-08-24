@@ -14,6 +14,15 @@ eigenen Repo wird. Zwei Remotes: `kit` (Updates vom Autor, nur lesen) und
 
 ## Regel 1: Bestandsaufnahme zuerst, bei jedem Einstieg
 
+**Modell-Standard pruefen (immer, ganz am Anfang):** Diese Session und alle
+Bot-Dienste laufen mindestens auf Opus 5 mit Effort max. Pruefen: die eigene
+Session (laeuft gerade ein kleineres Modell, dem Menschen sagen, er soll mit
+`claude --model opus --effort max` starten, oder selbst per /model wechseln)
+und die Startskripte (`grep -e --model -e --effort /usr/local/bin/assistent-*-start`
+muss `--model opus` und `--effort max` zeigen). Ein kleineres Modell macht
+das Setup schlechter und den Assistenten unzuverlaessiger; abgewichen wird
+nur auf ausdruecklichen Wunsch des Menschen.
+
 Harte Regel. Bevor irgendetwas eingerichtet, geaendert oder fortgesetzt wird:
 pruefen und berichten, was schon da ist. Auch nach einem Neustart mitten im
 Setup, auch wenn der Mensch "mach weiter" schreibt.
@@ -157,6 +166,27 @@ Danach die erste Automation anbieten: einen Morgenreport.
 
 Fertig wenn: der Timer steht mit NEXT-Zeitpunkt und der Mensch den ersten
 Report im Chat bestaetigt hat.
+
+## Abschluss-Audit: nichts vergessen, alles bewiesen
+
+Nach Phase 5 (und nach jedem groesseren Modul) laeuft ein Abschluss-Audit.
+Kein Gefuehl, nur Beweise:
+
+1. ALLE Fertig-wenn-Checks der abgeschlossenen Phasen noch einmal
+   ausfuehren (Dienst aktiv, Timer mit NEXT, formatierte Testnachricht,
+   Sprachmemo kommt an, Push auf die Sicherung, Notzugang getestet).
+   Ergebnis als kurze Liste, gruen je Punkt; rot wird sofort repariert
+   und erneut geprueft.
+2. Bestandsaufnahme final: nichts aus der Strecke uebersprungen? Jede
+   Luecke wird benannt und entweder geschlossen oder als bewusste
+   Entscheidung des Menschen notiert.
+3. **Abschluss-Report als Concierge-Feedback:** den Menschen fragen:
+   "Darf ich dem Kit-Autor anonym melden, dass ein Setup durchgelaufen
+   ist, und was dabei gehakt hat? Keine Namen, keine Daten von dir."
+   Bei Ja: GitHub-Issue mit dem Template (Phase: Abschluss; was lief
+   glatt, wo gehakt, Dauer grob, Verbesserungsvorschlaege). Bei Nein:
+   nichts senden. Zwischendurch gilt dasselbe: nach jeder Phase mit
+   nennenswertem Stolperer einmal fragen, gesammelt statt einzeln.
 
 ## Modul-Katalog
 
