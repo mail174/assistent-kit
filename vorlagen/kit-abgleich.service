@@ -1,0 +1,18 @@
+[Unit]
+# Woechentlicher Abgleich mit dem Assistent-Kit: prueft auf Updates und
+# schlaegt sie dem Menschen vor, siehe skills/kit-abgleich/SKILL.md.
+Description=Kit-Abgleich (Update-Check gegen das Assistent-Kit)
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/root/assistent
+# Zwei moegliche Wege, je nach Aufbau der Instanz waehlen:
+# (a) den laufenden Bot-Agenten per Telegram-Nachricht anstossen, also eine
+#     Nachricht mit "/kit-abgleich" in den bestehenden Kanal schicken, damit
+#     der Ablauf im laufenden Kontext des Bots passiert, oder
+# (b) wie hier direkt headless starten. "/kit-abgleich" braucht keine
+#     Tastatureingabe waehrenddessen, deshalb reicht claude -p ohne
+#     Pseudo-Konsole (anders als der Bot-Listener in assistent-bot.service,
+#     der auf script -qfec angewiesen ist).
+ExecStart=/usr/bin/claude -p "/kit-abgleich"

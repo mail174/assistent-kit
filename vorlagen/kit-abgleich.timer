@@ -1,0 +1,17 @@
+[Unit]
+# Jeden Sonntag um 18:00, Persistent holt einen verpassten Lauf nach.
+Description=Kit-Abgleich woechentlich Sonntag 18:00
+
+[Timer]
+OnCalendar=Sun *-*-* 18:00:00
+Persistent=true
+
+# 14-taegige Variante: systemd kennt kein natives "alle zwei Wochen" in
+# OnCalendar. Der Timer bleibt woechentlich (wie oben), und das Skript
+# hinter kit-abgleich.service prueft selbst die ISO-Kalenderwoche und
+# bricht in der ungeraden (oder geraden) Woche kommentarlos ab, z.B.:
+#   WOCHE=$(date +%V); [ $((10#$WOCHE % 2)) -eq 0 ] || exit 0
+# So bleibt eine einzige Timer-Datei fuer beide Rhythmen gueltig.
+
+[Install]
+WantedBy=timers.target
