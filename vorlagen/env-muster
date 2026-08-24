@@ -10,3 +10,8 @@
 
 # Fuer Sprachmemos (Sprachsynthese), optional:
 GEMINI_API_KEY=
+
+# Headless-Pflicht: verhindert den interaktiven "Resume from summary"-Dialog,
+# an dem ein Dienst ohne Tastatur ewig haengt (Details: wissen/selbstheilung.md).
+CLAUDE_CODE_RESUME_TOKEN_THRESHOLD=1000000000
+CLAUDE_CODE_RESUME_THRESHOLD_MINUTES=1000000000
