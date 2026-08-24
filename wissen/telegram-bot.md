@@ -109,3 +109,39 @@ Zustandsordner.
 
 **Fertig wenn:** `jq . "$D/access.json"` zeigt die eigene Telegram-ID als erlaubt,
 und eine Testnachricht von einem fremden Konto bleibt unbeantwortet.
+
+
+## Headless-Prompts, die den Dienst aufhaengen
+
+**Regel:** Der Bot-Dienst startet immer mit einer Settings-Datei, die
+Erst-Start-Dialoge unterdrueckt: `--settings /root/.assistent-bot-settings.json`
+mit `{"skipAutoPermissionPrompt": true}` (Vorlage: vorlagen/assistent-bot-settings.json,
+Einbau siehe vorlagen/assistent-bot-start).
+
+**Warum:** In der Generalprobe am 24.08.2026 hing der frisch installierte
+Dienst an drei Erst-Start-Rueckfragen, allen voran "Make auto mode your
+default permission mode?", die headless niemand wegdruecken kann. Der Bot
+war active, antwortete aber nie.
+
+**Werkzeug:** vorlagen/assistent-bot-settings.json + vorlagen/assistent-bot-start.
+
+**Fertig wenn:** `grep -c skipAutoPermissionPrompt /root/.assistent-bot-settings.json`
+eine 1 liefert und der Dienst nach `systemctl restart assistent-bot` binnen
+einer Minute auf eine Testnachricht antwortet.
+
+## Nur der offizielle Plugin-Kanal
+
+**Regel:** Als Telegram-Kanal laeuft ausschliesslich
+`plugin:telegram@claude-plugins-official`. Keine von Hand registrierten
+Kanal-Server, keine Eigenbauten.
+
+**Warum:** Claude Code fuehrt eine Allowlist zugelassener Kanaele. Ein in
+der Generalprobe am 24.08.2026 improvisierter eigener Kanal-Server wurde
+mit "not on the approved channels allowlist" verweigert; der Bot lief und
+hoerte trotzdem nie zu. Der offizielle Plugin-Kanal passiert das Gate.
+
+**Werkzeug:** vorlagen/assistent-bot-start (CH-Zeile).
+
+**Fertig wenn:** im Log des Dienstes keine Zeile "approved channels
+allowlist" steht und das Plugin-Kind lebt (Pruefbefehl siehe
+selbstheilung.md).

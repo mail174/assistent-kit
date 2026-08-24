@@ -7,9 +7,19 @@
 # STATE_DIR hier und im Dienst muessen identisch sein mit dem Ordner, in dem
 # /telegram:configure den Token abgelegt hat, sonst findet der Dienst den
 # Token nicht und der Bot startet stumm ohne Kanal.
+# Nicht plugin:telegram@claude-plugins-official, sondern ein von Hand
+# eingetragener MCP-Server (claude mcp add telegram-haupt): plugin-gestartete
+# Kanalserver bekommen KEINEN Env-Block, der Token muesste dann in
+# $TELEGRAM_STATE_DIR/.env liegen. Ueber den eigenen Servereintrag reisen
+# Token und Zustandsordner sauber mit (gefunden im Setup 24.08.2026).
 CH="plugin:telegram@claude-plugins-official"
 # Standard: Opus mit maximalem Effort, aenderbar wenn der Mensch anderes wuenscht.
 EXTRA=(--permission-mode acceptEdits --model opus --effort max)
+
+# Headless-Pflicht: ohne skipAutoPermissionPrompt haengt der Dienst beim
+# Auto-Mode-Angebot ("Make auto mode your default permission mode?"), das
+# ohne Tastatur niemand wegdruecken kann (gefunden im Setup 24.08.2026).
+[ -s /root/.assistent-bot-settings.json ] && EXTRA+=(--settings /root/.assistent-bot-settings.json)
 
 # Personalisierte Kopie aus vorlagen/, damit Kit-Updates per git pull konfliktfrei bleiben.
 ROLLE="/root/assistent/rollen/bot-rolle.md"

@@ -76,3 +76,21 @@ riesige Core-Dumps nach /var/crash, bis die Platte voll ist und alle Dienste
 mitreisst.
 
 **Fertig wenn:** `systemctl is-enabled apport 2>&1` zeigt `masked`.
+
+
+## Chromium auf Ubuntu 24.04: die Snap-Falle
+
+**Regel:** Auf frischen Ubuntu-24.04-Servern wird Chrome ueber das
+offizielle Google-Repo installiert (google-chrome-stable), dazu zwei
+Shims `/usr/local/bin/chromium` und `/usr/local/bin/chromium-browser`
+auf das Chrome-Binary.
+
+**Warum:** Das apt-Paket `chromium-browser` ist unter Ubuntu 24.04 nur
+eine Weiterleitung auf Snap, und Snap laeuft in Containern und manchen
+Minimal-Servern nicht. In der Generalprobe am 24.08.2026 brauchte die
+Installation genau diesen Umweg.
+
+**Werkzeug:** Installationsweg in diesem Artikel; mail-vorschau.py findet
+google-chrome von selbst (Fallback-Reihenfolge).
+
+**Fertig wenn:** `google-chrome --version` eine Versionszeile liefert.
