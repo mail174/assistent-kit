@@ -29,6 +29,7 @@ gh --version 2>/dev/null | head -1 || echo "gh: fehlt"
 gitleaks version 2>/dev/null || echo "gitleaks: fehlt"
 grep -q superpowers /root/.claude/plugins/installed_plugins.json 2>/dev/null && echo "superpowers: ok" || echo "superpowers: fehlt"
 ls /root/assistent 2>/dev/null && git -C /root/assistent remote -v || echo "repo: fehlt"
+ls /root/assistent/.claude/skills/setup/SKILL.md 2>/dev/null || echo "skill-verdrahtung: kaputt"
 ls /root/.claude/channels/ 2>/dev/null || echo "kanal-ordner: keine"
 systemctl list-units --type=service --all 'assistent*' 'waechter*' 'nacht*' --no-pager
 systemctl list-timers --all --no-pager
@@ -38,6 +39,11 @@ claude mcp list 2>/dev/null || echo "mcp: keine angeschlossen"
 Achtung bei den Timern: `list-timers` zeigt eine NEXT-Spalte. Steht dort ein
 Strich, ist der Timer enabled, aber nie gestartet worden. Er wird nie feuern.
 Dann fehlt `systemctl start <name>.timer`.
+
+Skill-Verdrahtung: `.claude/skills` ist Symlink auf die Kit-Skills
+(`ls .claude/skills/setup/SKILL.md`). Meldet der Check
+"skill-verdrahtung: kaputt", den Symlink neu setzen:
+`mkdir -p /root/assistent/.claude && ln -sfn ../skills /root/assistent/.claude/skills`.
 
 Danach eine kurze, gesprochene Zusammenfassung fuer den Menschen: das steht
 schon, das fehlt. Keine Rohausgaben zeigen. Bereits abgeschlossene Phasen
