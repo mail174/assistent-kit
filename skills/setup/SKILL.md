@@ -254,7 +254,7 @@ Fertig wenn: der neue Bot in seinem Chat antwortet und
 
 ### Woechentlicher Kit-Abgleich
 
-Timer, der einmal pro Woche unter /root/assistent-kit `git pull` zieht,
+Timer, der einmal pro Woche im eigenen Repo `git fetch kit` zieht,
 die Aenderungen liest und dem Menschen im Chat vorschlaegt, was davon
 uebernommen werden soll. Nichts ungefragt uebernehmen.
 
