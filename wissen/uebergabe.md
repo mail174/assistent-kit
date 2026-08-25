@@ -47,10 +47,12 @@ Sitzung selbst, kurz bevor sie endet.
 5. **Geplant frisch, ungeplant wiederaufnehmen.** Nach dem Nacht-Neustart startet der Bot
    frisch, der Brief traegt den Stand. Nur wenn der Brief fehlt oder alt ist, bleibt die
    Wiederaufnahme. Bei einem Absturz oder Waechter-Neustart mitten am Tag ist es
-   umgekehrt: dort gibt es keinen frischen Brief, also wird wiederaufgenommen, aber nur
-   bis zu einem Kontext-Deckel (`ASSISTENT_KONTEXT_DECKEL`, Standard 200.000 Tokens).
-   Darueber startet auch dort frisch, weil ein aufgeblaehtes Transkript den Start
-   minutenlang haengen lassen oder sprengen kann.
+   umgekehrt: dort soll es nahtlos weitergehen, der Brief waere von gestern und wuerde
+   den laufenden Tag verlieren. Einzige Ausnahme ist das Transkript, das selbst zum
+   Risiko wird (`ASSISTENT_TRANSKRIPT_MAX_MB`, Standard 100 MB): so grosse Dateien laden
+   minutenlang und haben Claude Code schon per OOM zerlegt, dort ist der frische Start
+   das kleinere Uebel. Mit dem naechtlichen Frischstart erreicht ein Transkript diese
+   Groesse im Normalbetrieb ohnehin nicht mehr.
 
 ## Fertig wenn
 

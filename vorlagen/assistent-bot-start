@@ -49,14 +49,16 @@ SID=$(tr -d '[:space:]' < "/root/.assistent-session-$DIENST" 2>/dev/null)
 FRISCH="/root/.assistent-frisch-$DIENST"
 [ -f "$FRISCH" ] && { rm -f "$FRISCH"; SID=""; }
 
-# Ungeplanter Neustart (Absturz, Waechter): wiederaufnehmen ist richtig, weil es dann
-# keinen frischen Brief gibt. Aber nur, solange der Kontext nicht aufgeblaeht ist:
-# sehr grosse Transkripte laden minutenlang und koennen den Start sprengen.
+# Ungeplanter Neustart (Absturz, Waechter): nahtlos weitermachen, also wiederaufnehmen.
+# Der Brief ist dann meist von der letzten Nacht und wuerde den laufenden Tag verlieren.
+# Einzige Ausnahme ist der Fall, in dem die Wiederaufnahme selbst zum Risiko wird: sehr
+# grosse Transkripte laden minutenlang und haben Claude Code schon per OOM zerlegt.
+# Ab dem Grenzwert ist ein frischer Start mit Brief das kleinere Uebel.
 TRANS=$(find /root/.claude/projects -maxdepth 2 -name "$SID.jsonl" 2>/dev/null | head -1)
-if [ -n "$SID" ] && [ -n "$TRANS" ] && command -v jq >/dev/null; then
-  CTX=$(tac "$TRANS" | grep -m1 '"type":"assistant"' | jq '((.message.usage.input_tokens//0)+(.message.usage.cache_creation_input_tokens//0)+(.message.usage.cache_read_input_tokens//0))' 2>/dev/null)
-  if [ "${CTX:-0}" -gt "${ASSISTENT_KONTEXT_DECKEL:-200000}" ]; then
-    echo "[assistent-bot-start] Kontext $CTX ueber Deckel, starte frisch" >&2
+if [ -n "$SID" ] && [ -n "$TRANS" ]; then
+  MB=$(( $(stat -c %s "$TRANS") / 1048576 ))
+  if [ "$MB" -gt "${ASSISTENT_TRANSKRIPT_MAX_MB:-100}" ]; then
+    echo "[assistent-bot-start] Transkript $MB MB, zu gross zum Wiederaufnehmen, starte frisch" >&2
     SID=""
   fi
 fi
