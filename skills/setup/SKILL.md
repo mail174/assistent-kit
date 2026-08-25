@@ -267,8 +267,13 @@ Waechter und Nacht-Neustart aus den Vorlagen (waechter.service,
 waechter.timer, nacht-neustart.service, nacht-neustart.timer), dazu die
 gewuenschten wiederkehrenden Reports (Regel 5).
 
-Fertig wenn: alle Timer in `systemctl list-timers` mit echtem NEXT stehen
-und der Waechter einen absichtlich gestoppten Bot wieder hochgeholt hat.
+Der Nacht-Neustart laesst vorher jede laufende Sitzung ihren Uebergabebrief
+schreiben (`wissen/uebergabe.md`, in Terminal-Sitzungen von Hand ueber den
+Skill `uebergabe`).
+
+Fertig wenn: alle Timer in `systemctl list-timers` mit echtem NEXT stehen,
+der Waechter einen absichtlich gestoppten Bot wieder hochgeholt hat und nach
+dem ersten Nachtlauf je Bot eine Zeile in `/var/log/uebergabe.log` steht.
 
 ### Weitere Bots
 
@@ -278,6 +283,11 @@ kommt in SERVICES der waechter.conf. Ab dem zweiten Bot zusaetzlich den
 woechentlichen Reihum-Neustart einrichten: vorlagen/wochen-neustart.service
 plus vorlagen/wochen-neustart.timer (sonntags 04:00, startet alle Dienste
 aus waechter.conf gestaffelt neu).
+
+Jeder neue Bot gehoert ausserdem in die BOTS-Liste von
+`skripte/nacht-neustart.sh` und braucht die Uebergabe-Zeile in seinem
+Startskript (Muster: `vorlagen/assistent-bot-start`). Fehlt eins von beidem,
+schreibt oder liest er keinen Brief, ohne dass es auffaellt.
 
 Fertig wenn: der neue Bot in seinem Chat antwortet und
 `systemctl status <dienst>` aktiv zeigt.
