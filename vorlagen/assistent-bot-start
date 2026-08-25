@@ -25,6 +25,12 @@ EXTRA=(--permission-mode acceptEdits --model opus --effort max)
 ROLLE="/root/assistent/rollen/bot-rolle.md"
 [ -s "$ROLLE" ] && EXTRA+=(--append-system-prompt "$(cat "$ROLLE")")
 
+# Uebergabebrief der Vorsitzung: eine Seite, geschrieben vom Vorgaenger kurz vor dem
+# Neustart. Haelt fest, was in keinem System steht: laufende Faeden, Entscheidungen,
+# offene Rueckfragen. Erzeugt von skripte/uebergabe-schreiben.sh.
+UEBERGABE="/root/assistent/uebergabe/${ASSISTENT_DIENST:-haupt}.md"
+[ -s "$UEBERGABE" ] && EXTRA+=(--append-system-prompt "$(cat "$UEBERGABE")")
+
 # Session-Wiederaufnahme: der session-track-Hook (skripte/session-track.sh,
 # Verdrahtung nach vorlagen/settings-muster.json) schreibt bei jeder Nachricht
 # die Session-ID des Dienstes in die Pointer-Datei. Beim Neustart wird genau

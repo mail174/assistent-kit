@@ -4,4 +4,5 @@ Description=Nacht-Neustart assistent-bot
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/systemctl restart assistent-bot
+ExecStart=/root/assistent/skripte/nacht-neustart.sh
+TimeoutStartSec=3600
