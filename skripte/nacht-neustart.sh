@@ -19,6 +19,14 @@ for dienst in ${SERVICES:-}; do
   name=$(systemctl show -p Environment --value "$dienst" | tr ' ' '\n' | grep '^ASSISTENT_DIENST=' | cut -d= -f2-)
   name="${name:-haupt}"
   "$REPO/skripte/uebergabe-schreiben.sh" "$name" "$HOME/.assistent-session-$name"
+  # Frisch starten darf nur, wer einen frischen Brief hat. Sonst bleibt die
+  # Wiederaufnahme die Rueckfallebene, damit ein misslungenes Schreiben nicht
+  # den ganzen Stand kostet. Den Marker liest vorlagen/assistent-bot-start.
+  if [ -n "$(find "$REPO/uebergabe/${name}.md" -mmin -15 2>/dev/null)" ]; then
+    touch "$HOME/.assistent-frisch-${name}"
+  else
+    echo "$(date -Iseconds) $name: kein frischer Brief, Neustart mit Wiederaufnahme" >&2
+  fi
   systemctl restart "$dienst"
   sleep 45   # gestaffelt, sonst laufen mehrere Sitzungen gleichzeitig hoch
 done

@@ -39,6 +39,28 @@ UEBERGABE="/root/assistent/uebergabe/${ASSISTENT_DIENST:-haupt}.md"
 # noch nicht verdrahtet) startet der Bot frisch.
 DIENST="${ASSISTENT_DIENST:-haupt}"
 SID=$(tr -d '[:space:]' < "/root/.assistent-session-$DIENST" 2>/dev/null)
+
+# Nach dem geplanten Nacht-Neustart bewusst frisch: den Stand traegt der Brief.
+# Gemessen an einem seit Wochen laufenden Bot: eine Wiederaufnahme zieht 500k bis 900k
+# Tokens ins Fenster, und nach jeder automatischen Verdichtung ueberleben davon ohnehin
+# nur rund 20k maschinell zusammengefasste Tokens. Der Brief leistet dasselbe mit rund
+# 1k, dafuer selbst kuratiert. Den Marker setzt skripte/nacht-neustart.sh, aber nur
+# wenn wirklich ein frischer Brief geschrieben wurde.
+FRISCH="/root/.assistent-frisch-$DIENST"
+[ -f "$FRISCH" ] && { rm -f "$FRISCH"; SID=""; }
+
+# Ungeplanter Neustart (Absturz, Waechter): wiederaufnehmen ist richtig, weil es dann
+# keinen frischen Brief gibt. Aber nur, solange der Kontext nicht aufgeblaeht ist:
+# sehr grosse Transkripte laden minutenlang und koennen den Start sprengen.
+TRANS=$(find /root/.claude/projects -maxdepth 2 -name "$SID.jsonl" 2>/dev/null | head -1)
+if [ -n "$SID" ] && [ -n "$TRANS" ] && command -v jq >/dev/null; then
+  CTX=$(tac "$TRANS" | grep -m1 '"type":"assistant"' | jq '((.message.usage.input_tokens//0)+(.message.usage.cache_creation_input_tokens//0)+(.message.usage.cache_read_input_tokens//0))' 2>/dev/null)
+  if [ "${CTX:-0}" -gt "${ASSISTENT_KONTEXT_DECKEL:-200000}" ]; then
+    echo "[assistent-bot-start] Kontext $CTX ueber Deckel, starte frisch" >&2
+    SID=""
+  fi
+fi
+
 if [ -n "$SID" ] && [ -n "$(find /root/.claude/projects -maxdepth 2 -name "$SID.jsonl" 2>/dev/null | head -1)" ]; then
   claude --resume "$SID" --channels "$CH" "${EXTRA[@]}"
   rc=$?
