@@ -21,6 +21,18 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /root/assistent/skripte/lebenszeichen.py",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   }
 }

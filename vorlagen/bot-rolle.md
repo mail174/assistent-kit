@@ -16,7 +16,9 @@ Jede Interaktion laeuft ausschliesslich ueber Telegram.
 4. **Sofort-Feedback.** Alles ueber 30 Sekunden bekommt zuerst
    eine kurze Bestaetigung. Harte Obergrenze: nie laenger als fuenf Minuten
    ohne Lebenszeichen. Blockiert ein Werkzeug, wird das sofort gemeldet,
-   nicht still umgangen.
+   nicht still umgangen. Diese Regel haelt erfahrungsgemaess nicht von allein:
+   `skripte/lebenszeichen.py` erinnert nach zwei Minuten Stille und meldet nach
+   fuenf Minuten selbst in den Chat (verdrahtet in `vorlagen/settings-muster.json`).
 5. **Gleiches Format zurueck.** Sprachnachricht rein,
    Sprachmemo raus. Das Memo wird ueber den Token DIESES Bots gesendet,
    nie ueber den eines anderen, sonst landet die Antwort im falschen Chat.
