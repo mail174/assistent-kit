@@ -67,6 +67,11 @@ timeout 600 script -qfec "claude --resume $SID -p $(printf '%q' "$AUFTRAG") --pe
 
 if [ -f "$BRIEF" ] && [ "$(find "$BRIEF" -mmin -15 2>/dev/null)" ]; then
   echo "$(date -Iseconds) $BOT: Brief geschrieben ($(wc -c < "$BRIEF") Bytes)" >> /var/log/uebergabe.log
+  # Der Mensch soll den Brief vor dem Neustart lesen koennen, nicht erst hinterher
+  # im Log suchen muessen. Telegram nimmt 4096 Zeichen, der Rest steht im Tagesarchiv.
+  melde "Uebergabe $BOT, geschrieben vor dem Neustart:
+
+$(head -c 3600 "$BRIEF")"
 else
   melde "Uebergabe $BOT: Brief wurde nicht geschrieben, Neustart laeuft trotzdem. Die naechste Sitzung startet ohne frischen Stand."
   echo "$(date -Iseconds) $BOT: FEHLGESCHLAGEN" >> /var/log/uebergabe.log
