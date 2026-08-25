@@ -277,10 +277,22 @@ for svc in "${SVC_LIST[@]}"; do
     continue
   fi
 
-  # Telegram-Plugin-Kind tot? (Bot lebt, ist aber taub)
+  # Telegram-Plugin-Kind tot? (Bot lebt, ist aber taub). Erst beim zweiten Mal in
+  # Folge neu starten: ein kurzer MCP-Aussetzer, bei dem sich das Plugin selbst
+  # wieder verbindet, sieht in diesem Moment genauso aus wie ein Totalausfall, und
+  # ein Neustart reisst laufende Arbeit mit.
+  tgm="$STATE/plugin-weg-$svc"
   if [ "$LOGGED_OUT" = "0" ] && [ "$up" -gt 240 ] && ! has_tg_plugin "$svc"; then
-    restart_service "$svc" "Telegram-Plugin war tot (Bot taub)"
-    continue
+    if [ ! -f "$tgm" ]; then
+      touch "$tgm"
+      log "$svc: Telegram-Plugin fehlt, warte einen Zyklus"
+    else
+      rm -f "$tgm"
+      restart_service "$svc" "Telegram-Plugin zweimal in Folge tot (Bot taub)"
+      continue
+    fi
+  else
+    rm -f "$tgm"
   fi
 
   # Lebt, angemeldet, und antwortet trotzdem nicht? Neustart. Der Chat-Kontext
