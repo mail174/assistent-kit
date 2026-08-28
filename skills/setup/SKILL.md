@@ -136,6 +136,7 @@ Menschen erzaehlen):
 - email: Posteingang sichten und vorsortieren.
 - focus: Hilfe beim Anfangen, wenn der Kopf blockiert.
 - cleanup: Ordner und Ablage aufraeumen, erst als Vorschau.
+- funnel: einen Lead-Funnel bauen oder einen bestehenden pruefen.
 - kit-abgleich: einmal die Woche schauen, was es im Kit Neues gibt.
 
 **Und danach:** der Tool-Katalog (Mail, Kalender, Aufgaben und mehr) kommt in
