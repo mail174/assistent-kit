@@ -1,0 +1,16 @@
+{
+  "name": "funnel-tracking",
+  "version": "2.0.0",
+  "description": "Funnel-Tracking fuer Netlify-Funnels: Changelog-Pflicht mit Deploy-Wrapper, First-Party-Tracking mit UTM und Multi-Touch, Meta Pixel plus CAPI, Anbindung an eine Auswertungsseite hinter /admin/tracking. Ein Skill je Bereich, ein Einstiegs-Skill fuer neue Funnels, Deploy-Guard als Hook.",
+  "author": {
+    "name": "assistent-kit"
+  },
+  "keywords": ["funnel", "tracking", "changelog", "meta-pixel", "capi", "utm", "netlify"],
+  "skills": [
+    "./skills/rollout",
+    "./skills/changelog",
+    "./skills/tracking",
+    "./skills/meta-pixel",
+    "./skills/analytics"
+  ]
+}

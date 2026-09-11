@@ -1,0 +1,18 @@
+{
+  "name": "assistent-kit",
+  "owner": {
+    "name": "assistent-kit"
+  },
+  "metadata": {
+    "description": "Marketplace des Assistent-Kits. Plugins liegen unter plugins/."
+  },
+  "plugins": [
+    {
+      "name": "funnel-tracking",
+      "source": "./plugins/funnel-tracking",
+      "description": "Changelog-Pflicht mit Deploy-Wrapper, First-Party-Tracking mit UTM und Multi-Touch, Meta Pixel plus CAPI, Anbindung an eine Auswertungsseite hinter /admin/tracking. Skills: rollout, changelog, tracking, meta-pixel, analytics. Hook: Deploy-Guard.",
+      "version": "2.0.0",
+      "category": "productivity"
+    }
+  ]
+}

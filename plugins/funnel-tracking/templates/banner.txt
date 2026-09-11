@@ -1,0 +1,17 @@
+Banner ganz oben in die Datei setzen, vor Imports und vor bestehende Kopf-Kommentare.
+Pflichtstellen: netlify.toml, vite.config.ts (oder Build-Config), App-Einstieg, jede Tracking-Lib, der Event-Sink.
+
+--- TS / JS ---
+// CHANGELOG-PFLICHT: Jede deployte Änderung an diesem Funnel braucht vorher einen Eintrag in
+// CHANGELOG.md. Deploy nur über `npm run deploy`, nie `netlify deploy --prod` direkt.
+// Gilt für jeden Agenten und jedes LLM. Regeln: AGENTS.md.
+
+--- TOML ---
+# CHANGELOG-PFLICHT: Jede deployte Änderung an diesem Funnel braucht vorher einen Eintrag in
+# CHANGELOG.md. Deploy nur über `npm run deploy`, nie `netlify deploy --prod` direkt.
+# Gilt für jeden Agenten und jedes LLM. Regeln: AGENTS.md.
+
+--- HTML ---
+<!-- CHANGELOG-PFLICHT: Jede deployte Änderung an diesem Funnel braucht vorher einen Eintrag in
+     CHANGELOG.md. Deploy nur über `npm run deploy`, nie `netlify deploy --prod` direkt.
+     Gilt für jeden Agenten und jedes LLM. Regeln: AGENTS.md. -->

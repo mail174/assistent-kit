@@ -14,6 +14,10 @@ deinem Server, der dich durch alles fuehrt.
 - `vorlagen/`  CLAUDE.md, Bot-Rollen, systemd-Units, Env-Muster
 - `skripte/`   Waechter, Transkription, Sprachmemo, Formatierung, Mail-Vorschau
 - `skills/`    /setup (Concierge) und Alltags-Ablaeufe
+- `plugins/`   Claude-Code-Plugins mit eigenen Skills, Hooks und Vorlagen.
+               Installation ueber den Marketplace des Kits:
+               `/plugin marketplace add <dieses Repo>`, dann
+               `/plugin install <name>@assistent-kit`
 
 ## Updates
 
