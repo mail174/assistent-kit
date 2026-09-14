@@ -36,7 +36,9 @@ export function experimentRows(funnel, exp, { deployId, commit, createdAt }) {
     status: exp.status,
   };
   const hash = createHash("sha1").update(JSON.stringify(core)).digest("hex").slice(0, 12);
-  const key = `experiment|${exp.id}|${hash}`;
+  // Funnel gehoert in den Key, sonst deduppt sink() die Rows mehrerer Funnel mit derselben
+  // Experiment-Id gegeneinander weg (wie manifest|<deploy>|<funnel> und der Changelog-Key).
+  const key = `experiment|${funnel}|${exp.id}|${hash}`;
   return [
     {
       event_type: "experiment_config",
